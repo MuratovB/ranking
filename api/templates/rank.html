@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rank Videos</title>
+</head>
+<body>
+    <h1>Rank Videos</h1>
+
+    <form action="/rank/" method="post">
+        <div>
+            {% for video in videos %}
+                <div>
+                    <img src="{{ video.thumbnail }}" alt="{{ video.title }}" style="width: 120px;">
+                    <h2>{{ video.title }}</h2>
+                    <a href="{{ video.url }}" target="_blank">Go to Video</a>
+                    <br>
+                    <button type="submit" name="selected_video" value="{{ video.url }}">Select</button>
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+
+    <a href="/download">Download Ranking Results</a>
+</body>
+</html>
