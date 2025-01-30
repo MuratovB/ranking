@@ -2,8 +2,18 @@ from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from scrap_playlist import get_video_links
+from dotenv import load_dotenv
 import random
+import os
+import json
 import yt_dlp
+
+load_dotenv()
+cookies_data = os.getenv('YT_COOKIES')
+if cookies_data:
+    cookies = json.loads(cookies_data)
+else:
+    cookies = []
 
 app = FastAPI()
 
@@ -26,6 +36,8 @@ def get_video_details(urls):
     ydl_opts = {
         'quiet': True,
         'extract_flat': True,  # We only want to extract the video info, not the full video
+        'cookiefile': None,  # Disable cookiefile, we are passing cookies directly
+        'cookies': cookies,  # Pass cookies as a list
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
