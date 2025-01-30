@@ -5,4 +5,4 @@ app = FastAPI()
 
 @app.get('/')
 def home():
-  return get_video_links()
+  return len(get_video_links())
