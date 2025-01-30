@@ -47,7 +47,7 @@ async def get_playlist(request: Request):
     playlist_url = user_playlist_url if user_playlist_url else "https://www.youtube.com/playlist?list=PLItAIW8MhCBa2BQYeTK9kWGSRJ5jFn8CG"
 
     video_urls = get_video_urls(playlist_url)
-    
+    print(video_urls)
     # Shuffle video URLs to ensure randomness
     random.shuffle(video_urls)
 
