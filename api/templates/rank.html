@@ -10,13 +10,14 @@
 
     <form action="/rank/" method="post">
         <div>
-            {% for video in videos %}
+            {% for video_url in videos %}
                 <div>
-                    <img src="{{ video.thumbnail }}" alt="{{ video.title }}" style="width: 120px;">
-                    <h2>{{ video.title }}</h2>
-                    <a href="{{ video.url }}" target="_blank">Go to Video</a>
+                    <video width="320" height="240" controls>
+                        <source src="{{ video_url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                     <br>
-                    <button type="submit" name="selected_video" value="{{ video.url }}">Select</button>
+                    <button type="submit" name="selected_video" value="{{ video_url }}">Select</button>
                 </div>
             {% endfor %}
         </div>
