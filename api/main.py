@@ -35,7 +35,7 @@ def get_video_details(urls):
     
     ydl_opts = {
         'quiet': True,
-        'extract_flat': True,  # We only want to extract the video info, not the full video
+        'extract_flat': False,  # We only want to extract the video info, not the full video
         'cookiefile': None,  # Disable cookiefile, we are passing cookies directly
         'cookies': cookies,  # Pass cookies as a list
     }
