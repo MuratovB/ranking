@@ -7,7 +7,7 @@ import yt_dlp
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="api/templates")
 
 
 # Helper function to handle odd number of videos
