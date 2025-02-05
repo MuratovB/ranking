@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 
-def get_video_info(url):
+def get_video_info(url: str = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'):
     # Send GET request to the YouTube video URL
     response = requests.get(url)
     if response.status_code == 200:
