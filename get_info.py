@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 
-def get_video_info(url):
+def get_video_info(url: str = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'):
     # Send GET request to the YouTube video URL
     response = requests.get(url)
     if response.status_code == 200:
@@ -16,12 +16,7 @@ def get_video_info(url):
             thumbnail_url = thumbnail.get('content')
         else:
             thumbnail_url = None
-        
+        print(f"Title: {title}\nThumbnail: {thumbnail}")
         return title, thumbnail_url
     else:
         return None, None
-
-# Example usage
-url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-title, thumbnail = get_video_info(url)
-print(f"Title: {title}\nThumbnail: {thumbnail}")
