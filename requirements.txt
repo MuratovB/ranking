@@ -1,4 +1,6 @@
 fastapi
 jinja2
-uvicorn
+requests
+beautifulsoup4
 yt-dlp
+uvicorn
