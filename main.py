@@ -9,11 +9,11 @@ from fastapi import Request
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-# Function to get video URLs from the YouTube playlist
-def get_video_urls(playlist_url: str = 'https://www.youtube.com/playlist?list=PLItAIW8MhCBa2BQYeTK9kWGSRJ5jFn8CG'):
+# Function to get video URLs, titles, and thumbnails from the YouTube playlist
+def get_video_details(playlist_url: str):
     ydl_opts = {
         'quiet': True,
-        'extract_flat': True,  # Don't download videos, just get URLs
+        'extract_flat': False,  # Extract video info, not just URLs
         'force_generic_extractor': True
     }
     
@@ -21,20 +21,27 @@ def get_video_urls(playlist_url: str = 'https://www.youtube.com/playlist?list=PL
         with YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(playlist_url, download=False)
             if 'entries' in info_dict:
-                urls = [entry['url'] for entry in info_dict['entries']]
-                return urls
+                # Extract details (URL, title, and thumbnail)
+                video_details = [
+                    {
+                        'url': entry['url'],
+                        'title': entry['title'],
+                        'thumbnail': entry['thumbnails'][0]['url'] if 'thumbnails' in entry else None
+                    }
+                    for entry in info_dict['entries']
+                ]
+                return video_details
             else:
                 raise HTTPException(status_code=400, detail="Invalid playlist URL")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Route to display the video URLs
+# Route to display the video details (URL, title, and thumbnail)
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request, playlist_url: str = ""):
     if playlist_url:
-        # Fetch the video URLs from the playlist
-        video_urls = get_video_urls(playlist_url)
-        # Render HTML with the list of video URLs as <a> tags
-        return templates.TemplateResponse("index.html", {"request": request, "video_urls": video_urls})
-    return templates.TemplateResponse("index.html", {"request": request, "video_urls": []})
-
+        # Fetch the video details from the playlist
+        video_details = get_video_details(playlist_url)
+        # Render HTML with the list of video details
+        return templates.TemplateResponse("index.html", {"request": request, "video_details": video_details})
+    return templates.TemplateResponse("index.html", {"request": request, "video_details": []})
