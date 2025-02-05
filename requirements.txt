@@ -1,6 +1,4 @@
 fastapi
 jinja2
 uvicorn
-python-multipart
-python-dotenv
 yt-dlp
